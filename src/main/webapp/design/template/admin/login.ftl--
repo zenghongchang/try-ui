@@ -1,0 +1,94 @@
+
+<#if agent??>
+<#include "../agents/${agent}/admin/login.ftl"/>
+<#else>
+	<#include "../page/header.ftl"/>
+	
+	<div id="wrapper">
+	    <div id="header">
+	    </div>
+	    <div id="main">
+	        <div id="content">
+	            <#if incorrectLogin?? && incorrectLogin>
+	            <div class="failure-msg" id="failure-msg"">
+	                <div style="margin-top: 10px; margin-left: 80px;">
+	                <@s.fielderror/>${errorMessage!''}
+	                </div>
+	            </div>
+	            </#if>
+	            <div class="post_login">
+	                <div class="supplier_login_bg"></div>
+	            	<div  class="supplier_login">
+	            		<div class="supplier_title"></div>
+	            		<form method="post" action="<@s.url value='/authenticate/login'/>">
+	            		<ul>
+						    <li class="width1"><span>用户名</span></li>
+						    <li>
+						      <input type="text" sta="0" name="username" id="username" value="${username!""}" class="text" tabindex="1" autocomplete="on">
+						    </li>
+						    <li class="width1">密码</li>
+						    <li>
+						      <input type="password" sta="0" name="password" id="password" value="${password!""}" class="text" tabindex="2" autocomplete="on">
+						    </li>
+						    <li style="display:none;"><input type="hidden" name="inputErrorCount" value="${inputErrorCount}"></li>
+						    
+						    <#if inputErrorCount gte 2 >
+						    <li class="width1"><span>验证码</span></li>
+						    <li style="width:290px">
+								<input name="kaptcha" class="text" style="width:40px;display:inline;float:left;outline:none;"/>
+								<img width="120" height="30" src="/scm/kaptcha" id="kaptcha" onclick="changeKaptcha()" style="float:left" title="点击换图"/><span style="font-size:10px;display:inline-block;float:left;height:30px;width:70px;">(不区分大小写)</span><a style="color:blue;" onclick="changeKaptcha()">换一张</a>
+							</li>
+							</#if>
+							
+							<script>
+							function changeKaptcha(){
+								document.getElementById('kaptcha').src = "/scm/kaptcha?t="+Math.random();
+							}
+							</script>
+						  <!--  <li>
+						      <input type="checkbox" class="checkbox" name="chkRememberMe" clstag="passport|keycount|login|04">
+						      &nbsp;自动登录&nbsp;&nbsp;&nbsp;<a  class="" href="#">忘记密码?</a></li>-->
+						    <li class="login_btn_supplier"><input type="submit" class="btn-img btn-entry"value="登录" onclick="return loginVerify(this)" tabindex="8" clstag="passport|keycount|login|06"></li>
+					  </ul>
+					  </form>
+					  <div class="clear"></div>
+	            	</div>
+	            </div>
+	            <div style="padding-left: 30px;display:none" class="success-msg" id="success-msg-foot"></div>
+	            <div style="padding-left: 30px;display:none" class="important" id="important-foot"></div>
+	            <div style="right: 0px; top: 38px; position: absolute; display: none" id="message_popup">
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	<#include "../page/footer.ftl"/>
+</#if>
+<script>
+var submitCount = 0;
+function loginVerify(o) {
+	var username = $('username');
+	var password = $('password');
+	if (username.value == "") {
+		password.style.border = "1px solid #D5D5D5"
+		username.style.border = "2px solid #FF0000";
+		username.focus();
+		return false;
+	}
+	if (password.value == "") {
+		username.style.border = "1px solid #D5D5D5";
+		password.style.border = "2px solid #FF0000";
+		password.focus();
+		return false;
+	}
+	o.value = '登录中...';
+	if (submitCount == 0) {
+		submitCount++;
+		o.style.background = "#C4C4C4";
+		return true;
+	} else {
+		o.disabled = true;
+		return false;
+	}
+}
+</script>

@@ -1,0 +1,15 @@
+.error
+{
+	position: absolute;
+	top: 11px;
+	right: 23px;
+	color: red;
+}
+td
+{
+	position: relative;
+}
+.input_user.input_selet
+{
+	border-color: red;
+}

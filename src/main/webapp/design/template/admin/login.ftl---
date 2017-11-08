@@ -1,0 +1,132 @@
+<#import "page/spring.ftl" as spring/>
+<#include "page/vars.ftl"/>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name ="viewport" content=""/>
+    <link type="image/x-icon" href="${imagesPath}icons/favicon.ico" rel="shortcut icon">
+	<title>fbt_login</title>
+	<link type="text/css" href="design/static/css/new/header_common.css?version=${version}" rel="Stylesheet">
+    <link type="text/css" href="design/static/css/new/fbt.css?version=${version}" rel="Stylesheet">
+    <link type="text/css" href="design/static/css/new/fbt_login.css?version=${version}" rel="Stylesheet">
+    <link type="text/css" href="design/static/css/new/fbt_login_ff_css.css?version=${version}" rel="Stylesheet">
+    <link type="text/css" href="design/static/css/new/index.css?version=${version}" rel="Stylesheet">
+	<script src="design/static/js/plugins/jquery/jquery-1.11.1.min.js?version=${version}" type="text/javascript"></script>
+	<script type="text/javascript" src="design/static/js/app/index/index2.js?version=${version}"></script>
+</head>
+<style>
+    .login_tip {
+    height: 26px;
+    line-height: 26px;
+    background: transparent;
+    margin-bottom: 20px;
+    color: #ff6f69;
+    width: 75%;
+    font-size: 14px;
+    display: inline-block;
+  }
+  .login_tip_prev {
+      display: inline-block;
+      float: left;
+      height: 26px;
+      line-height: 26px;
+      color: #ff6f69;
+      font-size: 14px;
+  }  
+  .resolute_seleted2{
+  		background: #17202c;
+  }
+</style>
+<body id="bg">
+<div style="position: relative;width: 100%;height: 100%;">
+  <div id="anim">
+      <img src="design/static/images/star1.png" class="img_star" alt="">
+  </div>
+  <div class = 'map'></div>
+  <div class="login_box ">
+    <form method="post" action="login" id="form">       
+       <div class="login_t"><img src="design/static/images/login_t.png" alt=""></div>
+       <div class="lg_tittle"><@spring.message "fbt.tomtop.gys.portals" /></div>
+       <div class="login_div1">
+           <ul class="fbt_login_ul">
+	             <li name="" class="<#if language?? &&language!='cn'>resolute_seleted<#else>resolute_seleted2</#if>" language="cn"><a href="#" id="cn" style="-webkit-text-fill-color:#50bad1"><@spring.message "chinese" /></a></li>
+	             <li name="" language="fr" class="<#if language?? &&language=='fr'>resolute_seleted2</#if>"><a href="#" id="fr">Français </a></li>
+	             <li name="" language="en" class="<#if language?? &&language=='en'>resolute_seleted2</#if>"><a href="#" id="en">English </a></li>
+	             <li name="" language="es" class="<#if language?? &&language=='es'>resolute_seleted2</#if>"><a href="#" id="es">Español</a></li>
+           </ul>
+           <div class="container">
+           <div id="prompt" style="display:none">
+              <span class="login_tip_prev">&gt;<span id="tishi"><@spring.message "hint" /></span>：</span>
+				<span class="login_tip" >000</span>
+   				</div>
+
+              <div class="card">
+                  <div class="input-container">
+                    <input type="text" id="username"  class="lg_input"  name="username"  value="${username!""}" required="required" style=" -webkit-text-fill-color: #50bad1!important;">
+                    <label for="_login_input1" id="username_lab"><@spring.message "username" /></label>
+                    <div class="bar"></div>
+                  </div>
+                  <div class="input-container">
+                    <input type="password"  id="password"  class="lg_input" name="password" value="${password!""}"  required="required" style=" -webkit-text-fill-color: #50bad1!important;">
+                    <label for="_login_input2" id="password_lab"><@spring.message "password" /></label>
+                    <div class="bar"></div>
+                  </div>
+                  <div class="input-container input-container2">
+                    <input type="#{type}"  id="_login_input3"  class="kaptcha" name="kaptcha" required="required">
+                    <div class="bar"></div>
+                    <a href="#" class="yanzhma" id="yanzhenma" onclick="changeKaptcha()">
+                      <img width="100" height="30" src="/kaptcha" id="kaptcha" onclick="changeKaptcha()" style="float:left" title="<@spring.message 'click.change.img' />">
+                    </a>
+                  </div>
+              </div>
+            </div> 
+       </div>
+       <input class="btn150_red lg_btn" id="login_lab" type="submit" value="<@spring.message 'login' />" style="outlin:none;"></input>
+       <input type="hidden" id="language" name="language" value="${language!'cn'}"/>
+    </form>
+    <div id="content" style="display:none">
+	            <#if incorrectLogin?? && incorrectLogin>
+		            <div  id="failure-msg">
+		                ${errorMessage!''}
+		            </div>  
+	            </#if>
+	    </div>
+  </div>
+  <footer style=" bottom: 16px;   background: transparent;
+    border-top: 1px solid #0e2732;color: #20555d">  
+    TTERP v2.0 &nbsp&nbsp&nbsp&nbsp  &nbsp&nbsp Copyright © 2004-2017 Tomtop Inc. All Rights Reserved
+  </footer>  
+</div>
+<script>
+        function drawCity(css,top,left,dom){
+          var city = document.createElement('div');
+          city.setAttribute("class",css);
+          city.style.top = top;
+          city.style.left = left;
+          var dom = document. getElementsByClassName(css) ;
+          document. getElementsByClassName('map')[0].append(city);
+        }
+        drawCity('huang',"51%",'63%');//深圳 0
+        drawCity('bai1',"52%",'50%');//aiji
+        drawCity('bai2',"26%",'35%');//bingdao
+        drawCity('bai3',"46%",'58%');//中部
+        drawCity('bai4',"54%",'61%');//hk 00
+        drawCity('bai5',"59%",'57%');//新疆 0
+        drawCity('bai6',"42%",'55%');//海洋 中
+        drawCity('bai7',"38%",'60%');//menggu 右
+        drawCity('bai8',"53%",'41%');//海洋下右
+        drawCity('bai9',"45%",'32%');//海洋下 左
+        drawCity('bai0',"38%",'31%'); //海洋上 左0
+        drawCity('bai11',"34%",'49%'); //海洋上 左0
+        drawCity('bai12',"49%",'64.5%'); //海洋上 左0
+        drawCity('bai13',"48%",'63%'); //海洋上 左0
+        drawCity('bai14',"47%",'60%'); //海洋上 左0
+        drawCity('bai15',"32%",'57%'); //海洋上 左0
+        drawCity('bai16',"49%",'58%'); //海洋上 左0
+        drawCity('bai17',"47.5%",'65%'); //海洋上 左0
+        drawCity('bai18',"42%",'63%'); //海洋上 左0
+        drawCity('bai19',"46%",'61%'); //海洋上 左0
+</script>
+</body>
+</html>
+</html>
