@@ -5,88 +5,38 @@
   <head>
     <meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="author" content="Tomtop Inc. Dev Team">
-    <meta name="description" content="Tomtop Inc.">
-    <#assign title = "TPMC System" >
+    <meta name="author" content="t-r-y Inc. Dev Team">
+    <meta name="description" content="t-r-y Inc.">
+    <#assign title = "HNUST">
 	<title>${title}</title>
-    <link type="text/css" href="${cssPath}login/ys_header_common2.css" rel="Stylesheet">
-    <link type="text/css" href="${cssPath}login/ys_login2.css" rel="Stylesheet">
+    <link type="text/css" href="${cssPath}common/materialize.min.css" rel="Stylesheet">
+    <link type="text/css" href="${cssPath}common/font-awesome.min.css" rel="Stylesheet">
+    <link type="text/css" href="${cssPath}app/home_page.css?version=${version}" rel="Stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="${jsPath}plugins/jquery/jquery-1.11.1.min.js?version=${version}" type="text/javascript"></script>
-    <script src="${jsPath}app/login/login.js?version=${version}" type="text/javascript"></script>
-        <style type="text/css">
-      input:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0px 1000px #262333 inset !important;
-        /*//关于解决输入框背景颜色*/
-        -webkit-text-fill-color: rgba(255,255,255,1)!important;
-        /*//关于接输入框文字颜色*/
-     }
-    </style>
-
 </head>
-<body id="bg">
-  <header>
-    <ul class="head_ul">
-      <li class="lf"><img src="${imagesPath}ys_tomtop.png" alt=""></li>
-      <li class="rt li_css2">0755-892115011</li>
-      <li class="rt">
-        <div class="lf ys_div_css"><img src="${imagesPath}ys_phone.png" alt=""></div>
-        <div class="lf ys_div_css2">
-          <p class="p_css">Online Service</p>
-          <p class="p_css">Monday to Sunday 9:00-18:30</p>
-        </div>
-      </li>
-    </ul>
-  </header>
-  <!-- body -->
-  <section id="ys_box">
-  <div class="ys_div" >
-  	  <div class = 'map'>
-        <img src="${imagesPath}login3.png" alt="">    
-      </div>
-      
-      <div class="container_mengceng" id="container2" >      
-          <img class="pa yunduo" src="${imagesPath}yunduo.png" alt="">
-
-      </div>
-      <div class="container" id="container" >
-        <div class="card">
-          <form id="loginForm" method="post" action="login">
-          <!-- 11 -->
-           <ul class="login_ul2" >
-             <li class="lf login_word"><@spring.message 'login' /></li>
-            </ul>
-          <!-- 99 -->
-            <div class="input-container" >
-              <input type="text" id="uname" name="loginName" value="${loginName!''}" required="required" onblur="validName()">
-              <label for="uname"><@spring.message "login.name" /></label>
-              <div class="bar" id="bar_name" ></div>
-              <p id="uname_tip" class="tip_com"></p>
-            </div>
-            <div class="input-container input_container2" >
-              <input type="password" id="upass" name="password" value="${password!''}" required="required" onblur="validCodee()">
-              <label for="upass"><@spring.message "password" /></label>
-              <div class="bar" id="bar_pass" ></div>
-              <p id="upass_tip" class="tip_com">${passError!''}</p>
-            </div>
-            <div class="input-container ">
-              <input type="text" id="upass2"  name="kaptcha" required="required" onblur="validAuthCode()" onkeyup="valiAndlogin(event)">
-              <label for="authcode"><@spring.message "auth.code" /></label>
-              <div class="bar" id="authCode_bar"></div>
-              <p id="upass_tip2" class="tip_com tip_com2" style="right:40%">${authCodeError!''}</p>      
-              <a href="javascript:void(0)" class="yanzhma" id="yanzhenma" onclick="changeKaptcha()">
-                   <img width="100" height="30" src="/kaptcha" id="kaptcha" onclick="changeKaptcha()" style="float:left" title="<@spring.message 'click.change.img' />">
-              </a>       
-            </div>
-            <input type="hidden" id="language" name="language" value="${language!'cn'}"/>
-          </form>
-          <div class="center css_ml" ><a class="clear btn150_red lg_btn a_css" onclick="validateAuthcode()">Login</a></div>
-        </div>
-      </div>    
-  </div>    
-  </section>
-  <!-- footer -->
-  <footer class="footer_ys">  
-     TPMC V1.0 <span class="footer_css"> Copyright © 2014-${copyRight} Tomtop Inc. All Rights Reserved</span>
-  </footer> 
+<body style="background-color: rgba(255, 255, 240, 0.44); width: 1519px; height: 276px; margin-top: -60px;">
+	<div id="app">
+		<div class="hello container" id="container" data-v-549a8a80="">
+			<div class="row" data-v-549a8a80="">
+				<div style="height: 338px;" class="col s12 row" id="bg-pic" data-v-549a8a80="">
+					<img class="center-align height-fix" src="design/static/images/cover_1.8027e65.png" data-v-549a8a80="">
+				</div>
+			</div>
+			<div style="position: relative;" class="row" data-v-549a8a80="">
+				<form style="height: 138px;" class="col s4 " id="code-input" data-v-549a8a80="">
+					<div class="row" data-v-549a8a80="">
+						<div class="input-field col s12" data-v-549a8a80="">
+							<i class="material-icons prefix" data-v-549a8a80="">loyalty</i><input class="validate" id="icon_prefix" placeholder="请输入图片提取码～" data-v-549a8a80="" type="text"><label class="active" for="icon_prefix" data-v-549a8a80="">提取码</label>
+						</div>
+					</div>
+					<a class="" id="send-code" href="#" data-v-549a8a80=""><i class="material-icons" data-v-549a8a80="">navigation</i></a>
+				</form>
+				<div class="col s12 center-align" id="author" data-v-549a8a80="">
+					<span data-v-549a8a80="">—&nbsp;</span> QMeiZi
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
