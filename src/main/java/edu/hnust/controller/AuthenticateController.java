@@ -75,6 +75,14 @@ public class AuthenticateController extends BaseController {
         return "admin/login";
     }
     
+    @RequestMapping(value = "/loginDemo")
+    public String loginDemo(Model model, HttpServletRequest request) {
+        System.out.println(request.getAttribute("username"));
+        System.out.println(request.getAttribute("password"));
+        return "page/error";
+    }
+    
+    
     /**
      * 登录
      *
