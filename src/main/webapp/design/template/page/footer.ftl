@@ -1,9 +1,5 @@
-				<footer>	
-					Copyright © 2017-${copyRight}
-				</footer>
-			</div>
-			<#--end content-R div-->
+			<#--<footer>Copyright © 2017-${copyRight}</footer>-->
 		</div>
-		<#--end wrap div-->
+		<#--end app div-->
 	</body>
 </html>

@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,12 +22,12 @@ import edu.hnust.util.DateUtil;
 public class AuthenticationInteceptor implements HandlerInterceptor {
     
     @Autowired
-    private UserSingleton userSingleton;    
-    public static final Logger log = Logger.getLogger(AuthenticationInteceptor.class);// 日志文件
+    private UserSingleton userSingleton;
     
     public AuthenticationInteceptor() {
         
-    }    
+    }
+    
     @Override
     public boolean preHandle(HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse, Object paramObject)
         throws IOException {
@@ -39,7 +38,6 @@ public class AuthenticationInteceptor implements HandlerInterceptor {
                 lang = o.toString();
             }
         }
-        log.info("lang:" + lang);
         if (StringUtils.isNotEmpty(lang)) {
             Locale.setDefault(new Locale(lang));
         }
@@ -47,12 +45,11 @@ public class AuthenticationInteceptor implements HandlerInterceptor {
             return true;
         }
         String str = paramHttpServletRequest.getRequestURI().substring(paramHttpServletRequest.getContextPath().length());
-        if (b(str).booleanValue()) {
+        if (permissionPage(str).booleanValue()) {
             return true;
         }
         UserInfor user = userSingleton.getUserInfor();
         if (null == user) {
-            log.info("user is empty:" + userSingleton.getUserInfor());
             String p = paramHttpServletRequest.getHeader("X-Requested-With");
             if (StringUtils.isNotEmpty(p) && p.equals("XMLHttpRequest")) {
                 ServletOutputStream out = paramHttpServletResponse.getOutputStream();
@@ -69,8 +66,8 @@ public class AuthenticationInteceptor implements HandlerInterceptor {
             return false;
         }
         String path = paramHttpServletRequest.getPathInfo();
-        log.info("path:" + path);
-        // 校验用户未授权的URL 不允许访问,访问后定向到主页        
+        System.out.println(path);
+        // 校验用户未授权的URL 不允许访问,访问后定向到主页
         return interceptTimeOut(paramHttpServletRequest, str);
     }
     
@@ -82,19 +79,16 @@ public class AuthenticationInteceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse, Object paramObject, Exception paramException) {
     }
     
-    private Boolean b(String paramString) {
+    private Boolean permissionPage(String paramString) {
         ArrayList<String> localArrayList = new ArrayList<>();
-        localArrayList.add("/loginForm");
+        localArrayList.add("/index");
         localArrayList.add("/kaptcha");
         localArrayList.add("/login");
-        // localArrayList.add("/index");
-        localArrayList.add("/registerForm");
+        localArrayList.add("/loginForm");
         localArrayList.add("/register");
+        localArrayList.add("/registerForm");
         localArrayList.add("/logout");
         localArrayList.add("/denied");
-        localArrayList.add("/purchase/inStockList");
-        localArrayList.add("/purchase/printShippingMarks");
-        
         return Boolean.valueOf(localArrayList.contains(paramString));
     }
     
@@ -114,7 +108,6 @@ public class AuthenticationInteceptor implements HandlerInterceptor {
         if ("/user/onlineLogger".equals(path)) {
             String attrTime = (String)session.getAttribute("attrTime");
             if (StringUtils.isNotEmpty(attrTime)) {
-                // long outTime=30*60*1000;
                 long outTime = session.getMaxInactiveInterval() * 1000;
                 long intervalTime = DateUtil.calIntervalTime(currentTime, attrTime);
                 if (intervalTime >= outTime) {

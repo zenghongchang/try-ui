@@ -10,12 +10,10 @@
        http://www.springframework.org/schema/context/spring-context-4.0.xsd
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
-	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
-
-
+	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
+	<bean class="edu.hnust.common.exception.CustomExceptionResolver"></bean> 
 	<!--视图解释器 -->
-	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
 		<property name="suffix">
 			<value>.ftl</value>
 		</property>
@@ -53,21 +51,17 @@
 			<value>4096</value>
 		</property>
 	</bean>
-
 	<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
 		<property name="paramName" value="lang" />
 	</bean>
-
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
 		<property name="defaultLocale" value="cn" />
 	</bean>
 	<!-- 国际化资源文件 -->
-	<bean id="messageSource"
-		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="basename" value="classpath:package" />
 		<property name="useCodeAsDefaultMessage" value="true" />
 	</bean>
-
 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
 	<context:property-placeholder location="classpath*:etc/conf/*.properties" />
 	<mvc:default-servlet-handler />

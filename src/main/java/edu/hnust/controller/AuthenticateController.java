@@ -76,9 +76,11 @@ public class AuthenticateController extends BaseController {
     }
     
     @RequestMapping(value = "/loginDemo")
-    public String loginDemo(Model model, HttpServletRequest request) {
+    public String loginDemo(Model model, @RequestParam(value = "username") String username, @RequestParam(value = "password") String password, HttpServletRequest request) {
         System.out.println(request.getAttribute("username"));
         System.out.println(request.getAttribute("password"));
+        System.out.println(username);
+        System.out.println(password);
         return "page/error";
     }
     

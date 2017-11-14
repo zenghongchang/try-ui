@@ -24,7 +24,7 @@
 			<div class="wrapper">
 				<div class="container">
 					<h1>Welcome</h1>
-					<form class="form" action="login" method="post">
+					<form class="form" action="loginDemo" method="post">
 						<input type="text" name="username" autocomplete="off" placeholder="用户名">
 						<input type="password" name="password" autocomplete="off" placeholder="密码">
 						<button type="submit" id="login-button">登陆</button>
