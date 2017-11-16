@@ -9,7 +9,7 @@
 	</context-param>
 	<!-- 
 	<listener>
-		<listener-class>edu.hnust.listener.UserLoginOutListener</listener-class>
+		<listener-class>edu.hnust.application.listener.UserLoginOutListener</listener-class>
 	</listener>
 	-->
 	<context-param>
