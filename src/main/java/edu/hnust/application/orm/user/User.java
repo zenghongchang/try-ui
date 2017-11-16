@@ -14,8 +14,7 @@ public class User implements Serializable {
     private String email;
     private String createDate;// 创建时间    
     private String updateDate;// 更新时间    
-    private String sysRemark;// 系统备注    
-    private String roleName; //    
+    private String sysRemark;// 系统备注
     private String language;// 语言    
     private String remoteAddr;    
     private Integer isSuperUser; // 是否超级管理员 0 否 1 是
@@ -50,14 +49,6 @@ public class User implements Serializable {
     
     public void setPassword(String password) {
         this.password = password;
-    }
-    
-    public String getRoleName() {
-        return roleName;
-    }
-    
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
     }
     
     public String getCreateDate() {
@@ -143,6 +134,6 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", userName=" + userName + ", password=" + password + ", loginName=" + loginName + ", fixedTelephone=" + fixedTelephone + ", mobilePhone=" + mobilePhone + ", qq=" + qq + ", email=" + email + ", createDate=" + createDate + ", updateDate=" + updateDate + ", sysRemark=" + sysRemark + ", roleName=" + roleName + ", language=" + language + ", remoteAddr=" + remoteAddr + ", isSuperUser=" + isSuperUser + "]";
+        return "User [id=" + id + ", userName=" + userName + ", password=" + password + ", loginName=" + loginName + ", fixedTelephone=" + fixedTelephone + ", mobilePhone=" + mobilePhone + ", qq=" + qq + ", email=" + email + ", createDate=" + createDate + ", updateDate=" + updateDate + ", sysRemark=" + sysRemark + ", language=" + language + ", remoteAddr=" + remoteAddr + ", isSuperUser=" + isSuperUser + "]";
     }
 }
