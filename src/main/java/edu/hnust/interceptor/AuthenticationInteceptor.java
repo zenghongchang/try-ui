@@ -2,27 +2,22 @@ package edu.hnust.interceptor;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
-import edu.hnust.core.UserSingleton;
-import edu.hnust.dto.user.UserInfor;
 import edu.hnust.util.DateUtil;
 
 public class AuthenticationInteceptor implements HandlerInterceptor {
     
-    @Autowired
-    private UserSingleton userSingleton;
+    // @Autowired
+    // private UserSingleton userSingleton;
     
     public AuthenticationInteceptor() {
         
@@ -31,6 +26,7 @@ public class AuthenticationInteceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse, Object paramObject)
         throws IOException {
+        /*
         String lang = paramHttpServletRequest.getParameter("lang");
         if (StringUtils.isEmpty(lang)) {
             Object o = paramHttpServletRequest.getAttribute("lang");
@@ -68,7 +64,8 @@ public class AuthenticationInteceptor implements HandlerInterceptor {
         String path = paramHttpServletRequest.getPathInfo();
         System.out.println(path);
         // 校验用户未授权的URL 不允许访问,访问后定向到主页
-        return interceptTimeOut(paramHttpServletRequest, str);
+        return interceptTimeOut(paramHttpServletRequest, str);*/
+        return true;
     }
     
     @Override
@@ -79,7 +76,7 @@ public class AuthenticationInteceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse, Object paramObject, Exception paramException) {
     }
     
-    private Boolean permissionPage(String paramString) {
+    public Boolean permissionPage(String paramString) {
         ArrayList<String> localArrayList = new ArrayList<>();
         localArrayList.add("/index");
         localArrayList.add("/kaptcha");
@@ -92,7 +89,7 @@ public class AuthenticationInteceptor implements HandlerInterceptor {
         return Boolean.valueOf(localArrayList.contains(paramString));
     }
     
-    private Boolean a(Object paramObject) {
+    public Boolean a(Object paramObject) {
         return Boolean.valueOf(paramObject instanceof ResourceHttpRequestHandler);
     }
     
@@ -102,7 +99,7 @@ public class AuthenticationInteceptor implements HandlerInterceptor {
      * @param request
      * @param path
      */
-    private boolean interceptTimeOut(HttpServletRequest request, String path) {
+    public boolean interceptTimeOut(HttpServletRequest request, String path) {
         HttpSession session = request.getSession();
         String currentTime = DateUtil.getCurrentDateTimeAsString();
         if ("/user/onlineLogger".equals(path)) {

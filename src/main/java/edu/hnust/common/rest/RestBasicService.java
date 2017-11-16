@@ -12,6 +12,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import edu.hnust.dto.ServiceResponseCode;
+import edu.hnust.util.Json;
 import edu.hnust.util.JsonConverter;
 
 public abstract class RestBasicService {
@@ -129,8 +130,10 @@ public abstract class RestBasicService {
     }
     
     public void setServiceRequestId(Object id) {
-        this.setServiceRequest(id.toString()); 
-    } 
+        Map<String, Object> hashmap = new HashMap<String, Object>();
+        hashmap.put("id", id);
+        this.setServiceRequest(Json.toJson(hashmap));
+    }
     
     public void setServiceRequestQuery(Object query, Object sort, Object pagination) {
         this.setServiceRequestQuery(query, sort, pagination, Boolean.valueOf(true)); 

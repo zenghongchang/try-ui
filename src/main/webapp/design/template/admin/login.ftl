@@ -11,6 +11,8 @@
 		<title>${title}</title>
 	    <link type="text/css" href="${cssPath}app/index.css?version=${version}" rel="Stylesheet">
 	    <script src="${jsPath}plugins/jquery/jquery-1.11.1.min.js?version=${version}" type="text/javascript"></script>
+	    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+	    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		<script>
 			$('#login-button').click(function (event) {
 				event.preventDefault();

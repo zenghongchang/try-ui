@@ -55,7 +55,8 @@ public class AuthenticateController extends BaseController {
      */
     @RequestMapping("/index")
     public String index(Model model) {
-        return "index";
+        // return "index";
+        return "laboratory";
     }
     
     /**

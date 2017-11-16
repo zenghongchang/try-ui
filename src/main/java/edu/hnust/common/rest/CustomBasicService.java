@@ -20,7 +20,7 @@ public class CustomBasicService extends RestBasicService {
         try {
             String requestUrl = StringUtils.stripEnd(getServiceAddress(), "/") + StringUtils.stripEnd(url, "/") + "?token=" + getServiceToken();
             System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^lion " + requestUrl);
-            System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^lion " + headers.toString());
+            System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^lion " + getServiceRequest());
             logger.info("requestUrl：" + requestUrl);
             logger.info("headers：" + headers.toString());
             headers.add("Accept", "application/json;charset=utf-8");
@@ -39,7 +39,7 @@ public class CustomBasicService extends RestBasicService {
         try {
             String requestUrl = StringUtils.stripEnd(getServiceAddress(), "/") + StringUtils.stripEnd(url, "/") + "?token=" + getServiceToken();
             System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^lion " + requestUrl);
-            System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^lion " + headers.toString());
+            System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^lion " + getServiceRequest());
             logger.info("requestUrl：" + requestUrl);
             logger.info("headers：" + headers.toString());
             headers.add("Accept", "application/json;charset=utf-8");
