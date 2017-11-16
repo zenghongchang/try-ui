@@ -11,8 +11,7 @@ import java.io.Serializable;
  * @since [产品/模块版本]
  */
 @SuppressWarnings("serial")
-public class Product implements Serializable {
-    
+public class Product implements Serializable {    
     private Integer id;//
     private String productName;// 商品名
     private String productCode;// 商品编码
@@ -20,8 +19,10 @@ public class Product implements Serializable {
     private Double productSize;// 商品图片大小
     private String productDesc;// 商品描述    
     private String productImgUrl;// 商品图片地址    
-    private Integer soldOutProduct;// 是否下架商品,1:下架,0:未下架
-    private String productRemark;// 商品备注
+    private Integer soldOutProduct = 1;// 是否下架商品,1:下架,0:未下架    
+    private String productRemark;// 商品备注    
+    private Integer isMasterRecommend = 0;// 是否站长推荐,1:推荐,0:未推荐商品
+    private Integer starCollection;// 集赞数
     private String sysRemark;// 系统备注    
     private String creator;// 创建人    
     private String createDate;// 创建时间
@@ -98,6 +99,22 @@ public class Product implements Serializable {
         this.productRemark = productRemark;
     }
     
+    public Integer getIsMasterRecommend() {
+        return isMasterRecommend;
+    }
+
+    public void setIsMasterRecommend(Integer isMasterRecommend) {
+        this.isMasterRecommend = isMasterRecommend;
+    }
+
+    public Integer getStarCollection() {
+        return starCollection;
+    }
+
+    public void setStarCollection(Integer starCollection) {
+        this.starCollection = starCollection;
+    }
+
     public String getSysRemark() {
         return sysRemark;
     }
@@ -124,6 +141,6 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "Product [id=" + id + ", productName=" + productName + ", productCode=" + productCode + ", productPrice=" + productPrice + ", productSize=" + productSize + ", productDesc=" + productDesc + ", productImgUrl=" + productImgUrl + ", soldOutProduct=" + soldOutProduct + ", productRemark=" + productRemark + ", sysRemark=" + sysRemark + ", creator=" + creator + ", createDate=" + createDate + "]";
+        return "Product [id=" + id + ", productName=" + productName + ", productCode=" + productCode + ", productPrice=" + productPrice + ", productSize=" + productSize + ", productDesc=" + productDesc + ", productImgUrl=" + productImgUrl + ", soldOutProduct=" + soldOutProduct + ", productRemark=" + productRemark + ", isMasterRecommend=" + isMasterRecommend + ", starCollection=" + starCollection + ", sysRemark=" + sysRemark + ", creator=" + creator + ", createDate=" + createDate + "]";
     }
 }
