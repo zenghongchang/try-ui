@@ -6,8 +6,7 @@ $(document).ready(function () {
     });
     //验证码
     createCode();
-    //测试提交，对接程序删除即可
-    $(".submit_btn").click(function () {
-        location.href = "index.html";
-    });
+});
+$(document).on('click', '.submit_btn', function () {
+    $("#loginForm").submit();
 });
