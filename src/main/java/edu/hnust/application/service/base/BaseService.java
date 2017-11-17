@@ -6,8 +6,8 @@ import org.apache.log4j.Logger;
 import edu.hnust.application.common.rest.CustomBasicService;
 
 public class BaseService extends CustomBasicService {
-    private final static String TPMC_SERVICE_ADDRESS = "TOMTOP_TPMC_SERVER_ADDRESS";    
-    private final static String TPMC_SERVICE_TOKEN = "TOMTOP_TPMC_TOKEN_CODE";
+    private final static String TRY_UI_SERVICE_ADDRESS = "TRY_UI_SERVER_ADDRESS";    
+    private final static String TRY_UI_SERVICE_TOKEN = "TRY_UI_TOKEN_CODE";
     
     private static String address;    
     private static String token;
@@ -16,10 +16,10 @@ public class BaseService extends CustomBasicService {
     
     public BaseService() {
         if (StringUtils.isEmpty(address)) {
-            address = System.getenv(TPMC_SERVICE_ADDRESS);
+            address = System.getenv(TRY_UI_SERVICE_ADDRESS);
         }
         if (StringUtils.isEmpty(token)) {
-            token = System.getenv(TPMC_SERVICE_TOKEN);
+            token = System.getenv(TRY_UI_SERVICE_TOKEN);
         }
         if (StringUtils.isBlank(token)) {
             token = "demo";
