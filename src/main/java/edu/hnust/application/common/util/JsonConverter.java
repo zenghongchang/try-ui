@@ -16,6 +16,12 @@ import org.codehaus.jackson.type.JavaType;
 import org.codehaus.jackson.type.TypeReference;
 
 /**
+ * Json转换工具类
+ * 
+ * @author Henry(fba02)
+ * @version [版本号, 2017年11月17日]
+ * @see [相关类/方法]
+ * @since [产品/模块版本]
  */
 public class JsonConverter {
     
