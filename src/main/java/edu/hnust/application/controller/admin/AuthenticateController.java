@@ -130,7 +130,7 @@ public class AuthenticateController extends BaseController {
         queryMap.put("loginName", loginName);
         // 校验登录名及密码是否存在
         user.setPassword(MD5Coding.encode2HexStr(password.getBytes()));
-        User resultUser = userService.login(user);
+        User resultUser = userService.validateUser(loginName, password);
         if (resultUser == null) {
             log.info("request:login fail");
         }
@@ -139,7 +139,7 @@ public class AuthenticateController extends BaseController {
             attributes.addFlashAttribute("passError", new MyLocale(language).getText("password.error"));
             return "redirect:/loginForm";
         }
-        resultUser.setLanguage(language);
+        // resultUser.setLanguage(language);
         resultUser.setRemoteAddr(RequestUtil.getIP(request));
         createLoginLog(resultUser, request);
         this.initUserInfor(resultUser);
@@ -246,6 +246,23 @@ public class AuthenticateController extends BaseController {
     }
     
     /**
+     * 登录页面
+     * 
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/adminLoginForm")
+    public String adminLoginForm(Model model, HttpServletRequest request) {
+        model.addAttribute("lang", "cn");
+        User userInfo = userSingleton.getUser();
+        if (null != userInfo) {
+            return "redirect:/adminIndex";
+        }
+        return ADMIN_LOGIN_FORM;
+    }
+    
+    /**
      * 管理员后台登录
      * 
      * @param model
@@ -281,12 +298,29 @@ public class AuthenticateController extends BaseController {
             return ADMIN_LOGIN_FORM;
         }
         // 校验用户名和密码是否正确
-        User user = new User();
-        user.setLoginName(loginName);
-        user.setPassword(password);
+        User user = userService.validateUser(loginName, password);
+        if (null == user) {
+            model.addAttribute("error", myLocale.getText("user.not.exist"));
+            return ADMIN_LOGIN_FORM;
+        }
         user.setRemoteAddr(getRequestIpAddr(request));
         userSingleton.setUser(user);
         return "redirect:/adminIndex";
+    }
+    
+    /**
+     * 管理员退出系统
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/adminLogout")
+    public String adminLogout(HttpSession session) {
+        // String sessionId = session.getId();
+        // loginLogService.cleanRecordTimeBySessionId(sessionId);
+        session.invalidate();
+        userSingleton.unsetUserInfor();
+        return "redirect:/adminLoginForm";
     }
     
     /**

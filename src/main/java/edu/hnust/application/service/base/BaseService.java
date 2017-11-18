@@ -25,7 +25,7 @@ public class BaseService extends CustomBasicService {
             token = "demo";
         }
         if (StringUtils.isBlank(address)) {
-            address = "http://192.168.180.182:24614";
+            address = "http://192.168.1.102:38366";
         }
         logger.info("address:" + address);
         this.setServiceAddress(address);
