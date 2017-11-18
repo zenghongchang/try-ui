@@ -3,20 +3,23 @@ package edu.hnust.application.service.user;
 import java.util.List;
 import java.util.Map;
 
+import edu.hnust.application.common.page.ReturnPageData;
 import edu.hnust.application.orm.user.User;
 
 public interface IUserService {
+    
     /**
-     * @param user
+     * 用户登陆校验
+     * @param loginName
+     * @param password
      * @return
      */
-    public User login(User user);
-    
+    public User validateUser(String loginName, String password);
     /**
      * @param map
      * @return
      */
-    public List<User> findUser(Map<String, Object> map);
+    public List<User> queryUserByKey(Map<String, Object> map);
     
     /**
      * @param map
@@ -40,51 +43,18 @@ public interface IUserService {
      * @param id
      * @return
      */
-    public int deleteUser(Integer id);
+    public Boolean deleteUserById(Integer id);
     
     /**
      * @param id
      * @return
      */
-    public User findById(Integer id);
+    public User queryUserById(Integer id);
     
     /**
-     * 查询用户对应上下级
-     * 
-     * @param map
+     * 分页查询
+     * @param requst
      * @return
      */
-    public List<User> findUserSubOrSup(Map<String, Object> map);
-    
-    /**
-     * 查询组包含的用户
-     * 
-     * @param groupId
-     * @return
-     */
-    public List<User> findUsersByGroupId(Integer groupId);
-    
-    /**
-     * 查询组不包含的用户
-     * 
-     * @param groupId
-     * @return
-     */
-    public List<User> findUsersByGroupIdExcept(Integer groupId);
-    
-    /**
-     * 查询工厂权限的用户
-     * 
-     * @param factoryId
-     * @return
-     */
-    public List<User> findUsersByFactoryId(Integer factoryId);
-    
-    /**
-     * 查询供应商权限
-     * 
-     * @param id
-     * @return
-     */
-    public List<User> findUsersByProviderId(Integer id);
+    public ReturnPageData<User> pageQueryUser(Map<String, Object> requst);
 }

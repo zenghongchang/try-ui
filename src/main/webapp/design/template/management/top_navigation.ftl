@@ -13,7 +13,7 @@
 				<a href="#" class="admin_icon">${currentUser.loginName!''}</a>
 			</li>
 			<li>
-				<a href="login.html" class="quit_icon">安全退出</a>
+				<a href="/adminLogout" class="quit_icon">安全退出</a>
 			</li>
 		</ul>
 	</header>
