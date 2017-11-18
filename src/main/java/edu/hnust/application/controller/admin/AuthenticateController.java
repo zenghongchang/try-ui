@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.LocaleResolver;
@@ -29,6 +31,7 @@ import edu.hnust.application.common.util.RequestUtil;
 import edu.hnust.application.common.util.SimpleKaptcha;
 import edu.hnust.application.controller.base.BaseController;
 import edu.hnust.application.core.UserSingleton;
+import edu.hnust.application.core.system.StandardPageUtil;
 import edu.hnust.application.orm.user.User;
 import edu.hnust.application.orm.user.UserLoginLog;
 import edu.hnust.application.service.user.IUserLoginLogService;
@@ -45,13 +48,17 @@ import edu.hnust.application.service.user.IUserService;
 @RequestMapping("/")
 @Controller
 public class AuthenticateController extends BaseController {
-    
+    @Autowired
+    private StandardPageUtil standardPageUtil;
     @Autowired
     private IUserService userService;    
     @Autowired
     private UserSingleton userSingleton;    
     @Autowired
     private IUserLoginLogService loginLogService;
+    public static String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";      
+    public static String KAPTCHA_CODE_IN_SESSION = "kaptcha_code_in_session";
+    private static final String ADMIN_LOGIN_FORM = "management/admin_login";
     
     /**
      * 主页面
@@ -61,8 +68,7 @@ public class AuthenticateController extends BaseController {
      */
     @RequestMapping("/index")
     public String index(Model model) {
-        // return "index";
-        return "laboratory";
+        return "management/admin_login";
     }
     
     /**
@@ -80,15 +86,6 @@ public class AuthenticateController extends BaseController {
             return "redirect:/index";
         }
         return "admin/login";
-    }
-    
-    @RequestMapping(value = "/loginDemo")
-    public String loginDemo(Model model, @RequestParam(value = "username") String username, @RequestParam(value = "password") String password, HttpServletRequest request) {
-        System.out.println(request.getAttribute("username"));
-        System.out.println(request.getAttribute("password"));
-        System.out.println(username);
-        System.out.println(password);
-        return "page/error";
     }
     
     /**
@@ -206,17 +203,112 @@ public class AuthenticateController extends BaseController {
         session.invalidate();
     }
     
-    @RequestMapping("/kaptcha")
-    public void createKaptcha(HttpServletResponse response, HttpServletRequest request) {
-        response.setHeader("Pragma", "No-cache");
-        response.setHeader("Cache-Control", "no-cache");
-        response.setDateHeader("Expires", 0);
-        try {
-            String kaptcha = SimpleKaptcha.create(120, 30, 4, 20, 16, 6, 5, response.getOutputStream());
-            request.getSession().setAttribute(SimpleKaptcha.KAPTCHA_CODE_IN_SESSION, kaptcha);
-            
-        } catch (IOException e) {
-            e.printStackTrace();
+    /**
+     * 获取验证码
+     * 
+     * @param response
+     * @param request
+     * @throws IOException
+     * @author Henry(fba02)
+     * @version [版本号, 2017年11月17日]
+     * @see [类、类#方法、类#成员]
+     */
+    @RequestMapping(value = "/kaptcha", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, String> createKaptcha(HttpServletResponse response, HttpServletRequest request) {
+        Random random = new Random();
+        Map<String, String> result = new HashMap<String, String>();
+        String strCode = "";
+        for (int i = 0; i < 4; i++) {
+            int a = random.nextInt(letters.length() - 1);
+            String rand = letters.substring(a, a + 1);
+            strCode = strCode + rand;
         }
+        result.put("success", strCode);
+        request.getSession().setAttribute(KAPTCHA_CODE_IN_SESSION, strCode);
+        return result;
+    }
+    
+    // ------------------------------------------------------------------------------------------------------ 管理员部分
+    /**
+     * 管理员后台首页
+     * 
+     * @param model
+     * @return
+     * @author Henry(fba02)
+     * @version [版本号, 2017年11月18日]
+     * @see [类、类#方法、类#成员]
+     */
+    @RequestMapping("/adminIndex")
+    public String adminIndex(Model model) {
+        standardPageUtil.init(model);
+        return "management/admin_index";
+    }
+    
+    /**
+     * 管理员后台登录
+     * 
+     * @param model
+     * @param loginName
+     * @param password
+     * @param kaptcha
+     * @param request
+     * @return
+     * @author Henry(fba02)
+     * @version [版本号, 2017年11月18日]
+     * @see [类、类#方法、类#成员]
+     */
+    @RequestMapping(value = "/adminLogin")
+    public String loginDemo(Model model, @RequestParam(value = "loginName") String loginName, @RequestParam(value = "password") String password, @RequestParam(value = "kaptcha") String kaptcha, HttpServletRequest request) {
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^:" + loginName + "," + password + "," + kaptcha);
+        MyLocale myLocale = new MyLocale();
+        if (StringUtils.isBlank(loginName)) {
+            model.addAttribute("error", myLocale.getText("login.name.is.empty"));
+            return ADMIN_LOGIN_FORM;
+        }
+        if (StringUtils.isBlank(password)) {
+            model.addAttribute("error", myLocale.getText("pass.word.is.empty"));
+            return ADMIN_LOGIN_FORM;
+        }
+        if (StringUtils.isBlank(kaptcha)) {
+            model.addAttribute("error", myLocale.getText("kaptcha.is.empty"));
+            return ADMIN_LOGIN_FORM;
+        }
+        String session_kaptcha = (String)request.getSession().getAttribute(KAPTCHA_CODE_IN_SESSION);
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^:" + session_kaptcha);
+        if (StringUtils.isNotBlank(session_kaptcha) && !session_kaptcha.toLowerCase().equals(kaptcha.toLowerCase())) {
+            model.addAttribute("error", myLocale.getText("kaptcha.input.error"));
+            return ADMIN_LOGIN_FORM;
+        }
+        // 校验用户名和密码是否正确
+        User user = new User();
+        user.setLoginName(loginName);
+        user.setPassword(password);
+        user.setRemoteAddr(getRequestIpAddr(request));
+        userSingleton.setUser(user);
+        return "redirect:/adminIndex";
+    }
+    
+    /**
+     * 获取请求IP
+     * 
+     * @param request
+     * @return
+     * @author Henry(fba02)
+     * @version [版本号, 2017年11月18日]
+     * @see [类、类#方法、类#成员]
+     */
+    public static String getRequestIpAddr(HttpServletRequest request) {
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return ip;
     }
 }

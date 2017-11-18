@@ -52,7 +52,7 @@ public class SimpleKaptcha {
         }
         g.dispose();
         try {
-            ImageIO.write(image, "JPEG", out);
+            ImageIO.write(image, "JPEG", out); 
         } catch (IOException e) {
             e.printStackTrace();
         }        
