@@ -2,22 +2,27 @@ package edu.hnust.application.interceptor;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import edu.hnust.application.common.util.DateUtil;
+import edu.hnust.application.core.UserSingleton;
+import edu.hnust.application.orm.user.User;
 
 public class AuthenticationInteceptor implements HandlerInterceptor {
     
-    // @Autowired
-    // private UserSingleton userSingleton;
+    @Autowired
+    private UserSingleton userSingleton;
     
     public AuthenticationInteceptor() {
         
@@ -26,7 +31,6 @@ public class AuthenticationInteceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest paramHttpServletRequest, HttpServletResponse paramHttpServletResponse, Object paramObject)
         throws IOException {
-        /*
         String lang = paramHttpServletRequest.getParameter("lang");
         if (StringUtils.isEmpty(lang)) {
             Object o = paramHttpServletRequest.getAttribute("lang");
@@ -44,7 +48,7 @@ public class AuthenticationInteceptor implements HandlerInterceptor {
         if (permissionPage(str).booleanValue()) {
             return true;
         }
-        UserInfor user = userSingleton.getUserInfor();
+        User user = userSingleton.getUser();
         if (null == user) {
             String p = paramHttpServletRequest.getHeader("X-Requested-With");
             if (StringUtils.isNotEmpty(p) && p.equals("XMLHttpRequest")) {
@@ -53,7 +57,11 @@ public class AuthenticationInteceptor implements HandlerInterceptor {
                 out.flush();
                 out.close();
             } else {
-                paramHttpServletResponse.sendRedirect("/loginForm");
+                if (str.indexOf("admin") > -1) {
+                    paramHttpServletResponse.sendRedirect("/adminLoginForm");
+                } else {
+                    paramHttpServletResponse.sendRedirect("/loginForm");
+                }             
             }
             return false;
         }
@@ -61,11 +69,11 @@ public class AuthenticationInteceptor implements HandlerInterceptor {
             paramHttpServletResponse.sendRedirect("/index");
             return false;
         }
-        String path = paramHttpServletRequest.getPathInfo();
-        System.out.println(path);
-        // 校验用户未授权的URL 不允许访问,访问后定向到主页
-        return interceptTimeOut(paramHttpServletRequest, str);*/
         return true;
+//        String path = paramHttpServletRequest.getPathInfo();
+//        System.out.println(path);
+//        // 校验用户未授权的URL 不允许访问,访问后定向到主页
+//        return interceptTimeOut(paramHttpServletRequest, str);
     }
     
     @Override
@@ -86,6 +94,9 @@ public class AuthenticationInteceptor implements HandlerInterceptor {
         localArrayList.add("/registerForm");
         localArrayList.add("/logout");
         localArrayList.add("/denied");
+        localArrayList.add("/adminLoginForm");
+        localArrayList.add("/adminLogin");
+        localArrayList.add("/adminLogout");
         return Boolean.valueOf(localArrayList.contains(paramString));
     }
     

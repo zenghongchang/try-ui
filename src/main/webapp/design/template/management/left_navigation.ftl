@@ -28,7 +28,7 @@
 			<dl>
 				<dt>会员管理</dt>
 				<dd>
-					<a href="user_list.html">会员列表</a>
+					<a href="/user/userManage">会员列表</a>
 				</dd>
 			</dl>
 		</li>
