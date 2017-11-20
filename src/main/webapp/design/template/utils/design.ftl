@@ -53,9 +53,9 @@
     <#return url>
 </#function>
 
-<#function tomtopcomcnImageUrl url>
+<#function comcnImageUrl url>
     <#if (url?index_of("http") == -1)>
-        <#local url = tomtopcomcnBaseUrlNoTail + url>
+        <#local url = comcnBaseUrlNoTail + url>
     </#if>
     <#return url>
 </#function>
